@@ -1,0 +1,123 @@
+<h2>Trivia Game</h2>
+<%= for {question, index} <- Enum.with_index(@trivia_data["results"]) do %>
+  <div class="question-div">
+    <span class="question-text"><%= index + 1 %>. <%= raw(question["question"]) %></span>
+    <div class="options-div">
+      <% 
+        options = [question["correct_answer"] | question["incorrect_answers"]]
+        shuffled_options = Enum.shuffle(options)
+      %>
+      
+      <%= for {option, _option_index} <- Enum.with_index(shuffled_options) do %>
+        <label class="custom-radio">
+          <input type="radio" name={"question_" <> Integer.to_string(index)} value={ raw(option) }>
+          <span class="custom-radio-label"><%= raw(option) %></span>
+        </label>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<style>
+/* Estilo global da página */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #2e2e2e, #121212); /* Gradiente escuro */
+    color: #f5f5f5;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding: 50px 20px; /* Adicionando espaçamento no topo */
+    text-align: center;
+}
+
+/* Estilizando o título do jogo */
+h2 {
+    font-size: 3em;
+    color: #ffffff;
+    margin-bottom: 40px;
+}
+
+/* Estilizando cada pergunta */
+.question-div {
+    background-color: #1c1c1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Estilizando o texto da pergunta */
+.question-text {
+    font-size: 1.6em;
+    color: #f5f5f5;
+    margin-bottom: 15px;
+}
+
+/* Estilizando o container das opções */
+.options-div {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Estilizando o rótulo customizado para as opções */
+.custom-radio {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    width: 100%;
+}
+
+/* Estilizando o input de rádio */
+.custom-radio input[type="radio"] {
+    display: none;
+}
+
+/* Estilizando o label customizado */
+.custom-radio-label {
+    padding: 15px;
+    font-size: 1.3em;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    background-color: #333;
+    color: #f5f5f5;
+}
+
+/* Efeito hover nas opções */
+.custom-radio-label:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+/* Efeito quando a opção é selecionada */
+.custom-radio input[type="radio"]:checked + .custom-radio-label {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 600px) {
+    h2 {
+        font-size: 2em;
+    }
+
+    .question-text {
+        font-size: 1.4em;
+    }
+
+    .custom-radio-label {
+        font-size: 1.1em;
+        padding: 12px;
+    }
+}
+</style>

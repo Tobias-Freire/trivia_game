@@ -1,0 +1,32 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* This file is for your main application CSS */
+.custom-radio {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .custom-radio input[type="radio"] {
+    display: none; /* Oculta o botão de rádio real */
+  }
+  
+  .custom-radio-label {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .custom-radio input[type="radio"]:checked + .custom-radio-label {
+    background-color: #ddd; /* Cor de fundo quando selecionado */
+    border-color: #000; /* Mudança de cor da borda quando selecionado */
+  }
+  
+  .custom-radio-label:hover {
+    background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
+  }
+  

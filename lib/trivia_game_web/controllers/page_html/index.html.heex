@@ -1,0 +1,57 @@
+<h1>Trivia Game</h1>
+<form action="/play" method="post">
+  <button type="submit">Jogar</button>
+</form>
+
+<style>
+  /* Estilo global */
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a1d, #4e4e50); /* Gradiente escuro e moderno */
+    color: #f5f5f5; /* Texto claro para contraste */
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Centraliza o conteúdo dentro dos elementos */
+  }
+
+  h1 {
+    color: #f5f5f5; /* Título em branco para contraste no tema escuro */
+    font-size: 5em; /* Tamanho grande para o título */
+    margin: 0;
+  }
+
+  form {
+    margin-top: 20px; /* Espaçamento entre o título e o botão */
+  }
+
+  button {
+    background-color: #007bff; 
+    color: white;
+    border: none;
+    padding: 20px 40px; /* Aumenta o tamanho do botão */
+    font-size: 2em; /* Aumenta o tamanho do texto do botão */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block; /* Garante que o botão se comporte bem em relação ao texto */
+  }
+
+  button:hover {
+    background-color: #0056b3; /* Cor mais escura ao passar o mouse */
+  }
+
+  /* Responsividade para telas menores */
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 3em;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1.5em;
+    }
+  }
+</style>
