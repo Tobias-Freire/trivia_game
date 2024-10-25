@@ -1,16 +1,21 @@
 <h2>Trivia Game</h2>
 <%= for {question, index} <- Enum.with_index(@trivia_data["results"]) do %>
-  <div class="question-div">
+  <div class="question-div" id={"question_" <> Integer.to_string(index)}>
     <span class="question-text"><%= index + 1 %>. <%= raw(question["question"]) %></span>
     <div class="options-div">
       <% 
+        # Combina a resposta correta com as incorretas e embaralha
         options = [question["correct_answer"] | question["incorrect_answers"]]
         shuffled_options = Enum.shuffle(options)
       %>
       
       <%= for {option, _option_index} <- Enum.with_index(shuffled_options) do %>
         <label class="custom-radio">
-          <input type="radio" name={"question_" <> Integer.to_string(index)} value={ raw(option) }>
+          <input 
+            type="radio" 
+            name={"question_" <> Integer.to_string(index)} 
+            value={raw(option)} 
+            data-correct={if option == question["correct_answer"], do: "true", else: "false"}>
           <span class="custom-radio-label"><%= raw(option) %></span>
         </label>
       <% end %>
@@ -18,30 +23,69 @@
   </div>
 <% end %>
 
+<button id="submit-answers">Responder</button>
+<div id="score" class="score-display"></div>
+
+<script>
+  document.getElementById("submit-answers").addEventListener("click", function() {
+    let correctCount = 0;
+    const totalQuestions = <%= length(@trivia_data["results"]) %>;
+
+    document.querySelectorAll(".question-div").forEach(questionDiv => {
+      const selectedOption = questionDiv.querySelector("input[type='radio']:checked");
+      const options = questionDiv.querySelectorAll(".custom-radio");
+      
+      options.forEach(radioWrapper => {
+        const input = radioWrapper.querySelector("input[type='radio']");
+        const label = radioWrapper.querySelector(".custom-radio-label");
+        
+        // Remover classes anteriores
+        label.classList.remove("correct", "incorrect");
+        
+        // Marcar a resposta correta em verde
+        if (input.dataset.correct === "true") {
+          label.classList.add("correct");
+        }
+        
+        // Se esta foi a opção selecionada e está errada
+        if (selectedOption === input && input.dataset.correct === "false") {
+          label.classList.add("incorrect");
+        }
+      });
+
+      // Contabilizar acertos
+      if (selectedOption && selectedOption.dataset.correct === "true") {
+        correctCount++;
+      }
+    });
+
+    const score = (correctCount / totalQuestions) * 100;
+    document.getElementById("score").innerText = `Você acertou ${score.toFixed(2)}% das questões!`;
+  });
+</script>
+
 <style>
 /* Estilo global da página */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #2e2e2e, #121212); /* Gradiente escuro */
+    background: linear-gradient(135deg, #2e2e2e, #121212);
     color: #f5f5f5;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    padding: 50px 20px; /* Adicionando espaçamento no topo */
+    padding: 50px 20px;
     text-align: center;
 }
 
-/* Estilizando o título do jogo */
 h2 {
     font-size: 3em;
     color: #ffffff;
     margin-bottom: 40px;
 }
 
-/* Estilizando cada pergunta */
 .question-div {
     background-color: #1c1c1e;
     border: 1px solid #333;
@@ -53,14 +97,13 @@ h2 {
     max-width: 800px;
 }
 
-/* Estilizando o texto da pergunta */
 .question-text {
     font-size: 1.6em;
     color: #f5f5f5;
     margin-bottom: 15px;
+    display: block;
 }
 
-/* Estilizando o container das opções */
 .options-div {
     margin-top: 15px;
     display: flex;
@@ -68,7 +111,6 @@ h2 {
     gap: 10px;
 }
 
-/* Estilizando o rótulo customizado para as opções */
 .custom-radio {
     display: flex;
     align-items: center;
@@ -76,36 +118,67 @@ h2 {
     width: 100%;
 }
 
-/* Estilizando o input de rádio */
 .custom-radio input[type="radio"] {
     display: none;
 }
 
-/* Estilizando o label customizado */
 .custom-radio-label {
     padding: 15px;
     font-size: 1.3em;
     border: 2px solid #007bff;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    transition: all 0.3s ease;
     background-color: #333;
     color: #f5f5f5;
+    width: 100%;
 }
 
-/* Efeito hover nas opções */
 .custom-radio-label:hover {
     background-color: #007bff;
     color: #ffffff;
 }
 
-/* Efeito quando a opção é selecionada */
 .custom-radio input[type="radio"]:checked + .custom-radio-label {
     background-color: #007bff;
     color: white;
 }
 
-/* Responsividade para telas menores */
+/* Estilos específicos para respostas corretas e incorretas */
+.custom-radio-label.correct {
+    border-color: #28a745 !important;
+    background-color: rgba(40, 167, 69, 0.2) !important;
+    color: #28a745 !important;
+}
+
+.custom-radio-label.incorrect {
+    border-color: #dc3545 !important;
+    background-color: rgba(220, 53, 69, 0.2) !important;
+    color: #dc3545 !important;
+}
+
+#submit-answers {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+#submit-answers:hover {
+    background-color: #0056b3;
+}
+
+.score-display {
+    font-size: 1.5em;
+    color: #28a745;
+    margin-top: 20px;
+}
+
 @media (max-width: 600px) {
     h2 {
         font-size: 2em;
