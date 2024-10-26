@@ -13,8 +13,8 @@ defmodule TriviaGameWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    post "/play", PageController, :play
-    post "/continue", PageController, :continue
+    post "/config", PageController, :config
+    post "/game", PageController, :game
   end
 
   # Other scopes may use custom stacks.

@@ -1,16 +1,27 @@
 <h2>Configurações do Jogo</h2>
-<form action="/continue" method="post">
+<form action="/game" method="post">
   <label for="amount">Quantidade de Questões:</label>
   <input type="number" name="amount" id="amount" min="1" max="50" value="10" />
 
   <label for="category">Categoria:</label>
   <select name="category" id="category">
-    <option value="9">General Knowledge</option>
-    <!-- Adicione outras categorias aqui -->
+    <option value="0">Qualquer categoria</option>
+    <option value="9">Conhecimentos gerais</option>
+    <option value="10">Livros</option>
+    <option value="11">Filmes</option>
+    <option value="12">Música</option>
+    <option value="15">Jogos</option>
+    <option value="17">Ciências e Naturezas</option>
+    <option value="18">Computação</option>
+    <option value="20">Mitologia</option>
+    <option value="23">História</option>
+    <option value="25">Artes</option>
+    <option value="27">Animais</option>
   </select>
 
   <label for="difficulty">Dificuldade:</label>
   <select name="difficulty" id="difficulty">
+    <option value="0">Qualquer dificuldade</option>
     <option value="easy">Fácil</option>
     <option value="medium">Média</option>
     <option value="hard">Difícil</option>
