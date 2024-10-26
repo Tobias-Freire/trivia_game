@@ -16,13 +16,8 @@ Este é um jogo de trivia online, desenvolvido em **Elixir** e com o framework *
 
   * Entre no diretório principal do projeto e rode `mix deps.get`
 
-  * Entre na pasta assets `cd assets`
-
-  * Rode `npm install`
-
-  * Volte ao diretório principal `cd ..`
-
-  * Compile com `mix compile`
+  * Compile com `mix compile` <br>
+  **Nota: Você pode compilar agora ou rodar diretamente o próximo comando que também faz a compilação**
 
   * Inicie o servidor do phoenix com `mix phx.server`
 
